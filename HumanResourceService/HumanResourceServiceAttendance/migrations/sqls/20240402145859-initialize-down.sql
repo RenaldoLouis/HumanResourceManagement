@@ -1,1 +1,1 @@
-/* Replace with your SQL commands */
+DROP table if exists users cascade;

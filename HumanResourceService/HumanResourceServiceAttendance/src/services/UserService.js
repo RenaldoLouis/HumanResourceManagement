@@ -1,6 +1,8 @@
 
 const db = require('../repositories/UserRepository.js');
 const DatabaseUtil = require('../utils/DatabaseUtil.js');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 async function getUsers(req, next) {
     try {
@@ -19,10 +21,21 @@ async function getByUserId(req, next) {
     }
 }
 
-async function createUser(req, next) {
+async function getByUserEmail(req, next) {
     const body = req.body;
     try {
-        return await DatabaseUtil.executeDatabaseOperation(db.createUser, body);
+        let user = await db.getUserByEmail(body)
+        return user.data;
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function createUser(req, next) {
+    const body = req;
+    try {
+        let user = await db.createUser(body)
+        return user.data;
     } catch (error) {
         next(error);
     }
@@ -50,6 +63,7 @@ async function deleteUserById(req, next) {
 module.exports = {
     getUsers,
     getByUserId,
+    getByUserEmail,
     deleteUserById,
     createUser,
     updateUser

@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router();
 const userController = require("../controllers/UserController");
-const { bodyUserValidation, idUserValidation } = require('../utils/ValidationUtil');
+const { bodyUserValidation, idUserValidation, registerValidation } = require('../utils/ValidationUtil');
 
+
+router.post('/register', registerValidation, userController.register)
 
 router.get('/users', userController.getUsers)
 router.get('/users/:id', userController.getUserById)

@@ -1,9 +1,11 @@
-const dbConfig = require('../configs/DbConfig');
+// const query = require('../configs/DbConfig');
+const db = require('../configs/DbConfig');
+const dataUtil = require('../utils/DataUtil')
+
 const { getCreateUserResponseDTO } = require('../models/UserModel');
-const pool = require('../configs/DbConfig')
 
 const getUsers = (callback) => {
-    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+    query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
         if (error) {
             return callback(error);
         }
@@ -13,7 +15,7 @@ const getUsers = (callback) => {
 
 const getUserById = (id, callback) => {
 
-    pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+    query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
         if (error) {
             return callback(error);
         }
@@ -21,25 +23,65 @@ const getUserById = (id, callback) => {
     })
 };
 
-const createUser = (params, callback) => {
-    const { name, email } = params
+async function getMultiple(page = 1) {
+    const offset = helper.getOffset(page, config.listPerPage);
+    const rows = await db.query(
+        `SELECT id, name, released_year, githut_rank, pypl_rank, tiobe_rank 
+      FROM programming_languages LIMIT ${offset},${config.listPerPage}`
+    );
+    const data = helper.emptyOrRows(rows);
+    const meta = { page };
 
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id,name,email', [name, email], (error, results) => {
-        if (error) {
-            return callback(error);
+    return {
+        data,
+        meta
+    }
+}
+
+
+async function getUserByEmail(params, callback) {
+    const { email } = params;
+    try {
+        const rows = await db.query(
+            `SELECT * FROM users WHERE email = '${email}'`
+        );
+        const data = dataUtil.emptyOrRows(rows);
+        return {
+            data,
         }
-        if (results.rowCount === 1 && results.rows[0].id) {
-            return callback(null, getCreateUserResponseDTO(results.rows[0]));
+    }
+    catch (error) {
+        throw error;
+    }
+
+}
+
+const createUser = async (params, callback) => {
+    const { name, email, password, role } = params
+
+    try {
+        const rows = await db.query(
+            'INSERT INTO users (name, email, password,role) VALUES (?, ?, ?,?)',
+            [name, email, password, role]
+        );
+        if (rows.affectedRows > 0) {
+            const data = getCreateUserResponseDTO(params);
+            return {
+                data,
+            }
         } else {
-            return callback(new Error('Failed to create user'));
+            throw new Error('Failed to inserted user');
         }
-    })
+    }
+    catch (error) {
+        throw error;
+    }
 }
 
 const updateUser = (id, userData, callback) => {
     const { name, email } = userData
 
-    pool.query(
+    query(
         'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING id,name,email',
         [name, email, id],
         (error, results) => {
@@ -56,7 +98,7 @@ const updateUser = (id, userData, callback) => {
 }
 
 const deleteUser = (id, callback) => {
-    pool.query('DELETE FROM users WHERE id = $1 RETURNING id', [id], (error, results) => {
+    query('DELETE FROM users WHERE id = $1 RETURNING id', [id], (error, results) => {
         if (error) {
             return callback(error);
         }
@@ -71,6 +113,7 @@ const deleteUser = (id, callback) => {
 module.exports = {
     getUsers,
     getUserById,
+    getUserByEmail,
     createUser,
     updateUser,
     deleteUser,
