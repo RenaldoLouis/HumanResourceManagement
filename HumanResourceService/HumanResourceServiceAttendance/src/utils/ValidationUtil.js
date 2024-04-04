@@ -15,6 +15,12 @@ const registerValidation = [
     body('role').notEmpty().withMessage('role is required'),
 ];
 
+const loginValidation = [
+    body('email').notEmpty().withMessage('Email is required'),
+    body('email').isEmail().withMessage('Invalid email address'),
+    body('password').notEmpty().withMessage('password is required'),
+];
+
 const idUserValidation = [
     param('id', 'id must be number!').isNumeric(),
     param('id', 'id has to be filled!').notEmpty(),
@@ -24,6 +30,7 @@ const idUserValidation = [
 module.exports = {
     bodyUserValidation,
     idUserValidation,
-    registerValidation
+    registerValidation,
+    loginValidation
 }
 
