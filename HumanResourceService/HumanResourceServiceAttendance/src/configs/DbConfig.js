@@ -1,7 +1,7 @@
 const dbConfig = {
   host: "localhost",
   user: "root",
-  password: "root",
+  password: "password",
   database: "attendance",
   port: "3306"
 };

@@ -13,7 +13,7 @@ const setUpWorker = () => {
     });
 
     worker.on('active', (job) => {
-        console.debug(`Processing job with id ${job.id}`);
+        console.debug(`Processing job with id on attendance service ${job.id}`);
     });
 
     worker.on('completed', (job, returnValue) => {

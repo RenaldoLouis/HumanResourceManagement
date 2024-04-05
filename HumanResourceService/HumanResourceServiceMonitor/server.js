@@ -7,6 +7,7 @@ const port = 3002
 const monitorRoute = require('./src/routes/MonitorRoutes.js')
 const userRoute = require('./src/routes/UserRoute.js')
 const consumer = require('./consumer');
+const setUpWorker = require('./src/bullmq/worker.js');
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -20,6 +21,9 @@ app.use('/api/v1/login', userRoute)
 app.use('/api/v1/monitorService', monitorRoute)
 
 app.use(ErrorHandler)
+
+
+setUpWorker();
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

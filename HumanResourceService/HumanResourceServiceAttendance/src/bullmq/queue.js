@@ -7,7 +7,7 @@ const myQueue = new Queue('JOBS', {
 });
 myQueue.setMaxListeners(myQueue.getMaxListeners() + 100);
 
-setUpWorker();
+// setUpWorker();
 
 const addJobToQueue = (data) => {
     return myQueue.add(data.jobName, data, configModule.DEFAULT_REMOVE_CONFIG);
