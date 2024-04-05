@@ -57,12 +57,12 @@ async function getUserByEmail(params, callback) {
 }
 
 const createUser = async (params, callback) => {
-    const { name, email, password, role } = params
+    const { name, email, password, role, gender, religion, security_number, age, birth_date } = params
 
     try {
         const rows = await db.query(
-            'INSERT INTO users (name, email, password,role) VALUES (?, ?, ?,?)',
-            [name, email, password, role]
+            'INSERT INTO employee_data (name, email, password,role,gender,religion,security_number,age,birth_date) VALUES (?, ?, ?,?,?,?,?,?,?)',
+            [name, email, password, role, gender, religion, security_number, age, birth_date]
         );
         if (rows.affectedRows > 0) {
             const data = getCreateUserResponseDTO(params);

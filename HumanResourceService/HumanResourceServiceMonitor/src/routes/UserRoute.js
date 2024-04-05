@@ -5,8 +5,8 @@ const validationUtil = require('../utils/ValidationUtil');
 
 
 router.post('/register', validationUtil.registerValidation, userController.register)
-router.post('/login', validationUtil.loginValidation, userController.login)
 
+// router.post('/login', validationUtil.loginValidation, userController.login)
 router.get('/users', userController.getUsers)
 router.get('/users/:id', userController.getUserById)
 router.post('/users', validationUtil.bodyUserValidation, userController.create)

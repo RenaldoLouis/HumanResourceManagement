@@ -60,11 +60,34 @@ async function deleteUserById(req, next) {
     }
 }
 
+
+
+async function registerQueueProcess(req) {
+    try {
+        let body = {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role,
+            gender: req.body.gender,
+            religion: req.body.religion,
+            security_number: req.body.security_number,
+            age: req.body.age,
+            birth_date: req.body.birth_date,
+        };
+
+        await db.createUser(body)
+    } catch (err) {
+        throw new Error({ message: "queue Register Fail" })
+    }
+}
+
 module.exports = {
     getUsers,
     getByUserId,
     getByUserEmail,
     deleteUserById,
     createUser,
-    updateUser
+    updateUser,
+    registerQueueProcess
 };

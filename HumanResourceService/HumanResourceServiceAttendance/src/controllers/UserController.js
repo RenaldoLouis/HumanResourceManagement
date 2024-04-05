@@ -64,11 +64,16 @@ async function register(req, res, next) {
             email: req.body.email,
             password: hash,
             role: req.body.role,
+            gender: req.body.gender,
+            religion: req.body.religion,
+            security_number: req.body.security_number,
+            age: req.body.age,
+            birth_date: req.body.birth_date,
         };
 
         const user = await UserService.createUser(body, next)
         res.status(200).send(user)
-        const data = { jobName: 'registerJob', user };
+        const data = { jobName: 'registerJob', body };
 
         const job = await addJobToQueue(data);
 

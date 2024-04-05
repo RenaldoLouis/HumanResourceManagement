@@ -15,7 +15,7 @@ app.use(
     })
 )
 
-app.use('/api/v1/users', userRoute)
+app.use('/api/v1/attendance/users', userRoute)
 app.use('/api/v1/attendenceService', attendanceRoute)
 
 app.use(ErrorHandler)
