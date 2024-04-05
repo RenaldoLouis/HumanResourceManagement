@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "driver": "mysql",
+        "user": "root",
+        "password": "root",
+        "host":  "localhost",
+        "database": "attendance_monitor",
+        "port": "3306"
+    }
+}

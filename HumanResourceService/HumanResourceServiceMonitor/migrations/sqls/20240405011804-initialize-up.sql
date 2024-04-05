@@ -1,0 +1,11 @@
+CREATE TABLE employee_data
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    gender VARCHAR(50) NOT NULL,
+    religion VARCHAR(50) NOT NULL,
+    security_number VARCHAR(500) NOT NULL,
+    age VARCHAR(50) NOT NULL,
+    birth_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

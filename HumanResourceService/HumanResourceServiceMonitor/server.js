@@ -3,9 +3,10 @@ const app = express()
 const bodyParser = require('body-parser')
 const ErrorHandler = require("./src/middlewares/ErrorHandlerMiddleware.js")
 var cors = require('cors')
-const port = 3001
-const attendanceRoute = require('./src/routes/AttendanceRoutes.js')
+const port = 3002
+const monitorRoute = require('./src/routes/MonitorRoutes.js')
 const userRoute = require('./src/routes/UserRoute.js')
+const consumer = require('./consumer');
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -16,7 +17,7 @@ app.use(
 )
 
 app.use('/api/v1/login', userRoute)
-app.use('/api/v1/attendenceService', attendanceRoute)
+app.use('/api/v1/monitorService', monitorRoute)
 
 app.use(ErrorHandler)
 

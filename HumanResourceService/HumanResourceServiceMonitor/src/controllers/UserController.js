@@ -5,8 +5,6 @@ const helper = require('../utils/DataUtil.js');
 const { validationResult } = require('express-validator');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
-const addJobToQueue = require('../bullmq/queue.js');
-
 
 async function getUsers(req, res, next) {
     try {
@@ -35,7 +33,6 @@ async function getUserById(req, res, next) {
     }
 }
 
-// when user succesfully register also insert to attendace_monitor database with different service using reddis queue
 async function register(req, res, next) {
     try {
         const errorValidation = validationResult(req);
@@ -68,11 +65,6 @@ async function register(req, res, next) {
 
         const user = await UserService.createUser(body, next)
         res.status(200).send(user)
-        const data = { jobName: 'registerJob', user };
-
-        const job = await addJobToQueue(data);
-
-
     } catch (err) {
         next(err);
     }

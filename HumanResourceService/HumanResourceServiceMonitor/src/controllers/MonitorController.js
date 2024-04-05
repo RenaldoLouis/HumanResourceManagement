@@ -1,4 +1,4 @@
-const attendanceService = require('../services/AttendanceService.js');
+const monitorService = require('../services/MonitorService.js');
 const { validationResult } = require('express-validator');
 
 async function createAttendance(req, res, next) {
@@ -14,7 +14,7 @@ async function createAttendance(req, res, next) {
             });
         }
 
-        const data = await attendanceService.createAttendance(req, next)
+        const data = await monitorService.createAttendance(req, next)
         res.status(200).send(data)
     } catch (err) {
         next(err);
@@ -23,7 +23,7 @@ async function createAttendance(req, res, next) {
 
 async function getUserAttendance(req, res, next) {
     try {
-        const data = await attendanceService.getUserAttendance()
+        const data = await monitorService.getUserAttendance()
         res.status(200).send(data)
     } catch (err) {
         next(err);
